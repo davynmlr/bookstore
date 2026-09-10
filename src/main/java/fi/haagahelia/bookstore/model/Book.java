@@ -1,5 +1,8 @@
 package fi.haagahelia.bookstore.model;
 
+import jakarta.persistence.Entity;
+
+@Entity 
 public class Book {
 
     private String title;
