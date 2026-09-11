@@ -12,11 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import fi.haagahelia.bookstore.repository.BookRepository;
 import fi.haagahelia.bookstore.model.Book;
 
+
 @Controller
 public class BookController {
 
     @Autowired 
     private BookRepository bookRepository;
+
+    @RequestMapping("/edit/{id}")
+    public String editBook(@PathVariable("id") Long bookId, Model model) {
+        Book book = bookRepository.findById(bookId).get();
+        model.addAttribute("book", book);        
+        return "editbook";
+    }
 
     @RequestMapping(value = "/delete/{id}")
     public String deleteBook(@PathVariable("id") Long bookId, Model model) {

@@ -74,6 +74,10 @@ public class Book {
         this.price = price;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Book id=" + id + ", title=" + title + ", author=" + author;
