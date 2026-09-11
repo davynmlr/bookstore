@@ -12,14 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import fi.haagahelia.bookstore.repository.BookRepository;
 import fi.haagahelia.bookstore.model.Book;
 
-
-
 @Controller
 public class BookController {
 
     @Autowired 
     private BookRepository bookRepository;
-
 
     @RequestMapping(value = "/delete/{id}")
     public String deleteBook(@PathVariable("id") Long bookId, Model model) {
