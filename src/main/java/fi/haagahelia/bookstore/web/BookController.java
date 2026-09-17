@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import fi.haagahelia.bookstore.repository.BookRepository;
 import fi.haagahelia.bookstore.model.Book;
-
+import fi.haagahelia.bookstore.repository.CategoryRepository;
 
 @Controller
 public class BookController {
@@ -19,10 +19,14 @@ public class BookController {
     @Autowired 
     private BookRepository bookRepository;
 
+    @Autowired 
+    private CategoryRepository categoryRepository;
+
     @RequestMapping("/edit/{id}")
     public String editBook(@PathVariable("id") Long bookId, Model model) {
         Book book = bookRepository.findById(bookId).get();
         model.addAttribute("book", book);        
+        model.addAttribute("categories", categoryRepository.findAll());
         return "editbook";
     }
 
@@ -35,6 +39,7 @@ public class BookController {
     @RequestMapping("/add")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "addbook";
     }
 
