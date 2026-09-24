@@ -7,10 +7,11 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity 
 public class Category {
-
     
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +19,7 @@ public class Category {
 
     private String name;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category" )
     private List<Book> books;
 
