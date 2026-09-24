@@ -1,4 +1,4 @@
-#Test 1 GET full
+#Test 1 GET all books
 PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe http://localhost:8080/api/books
 {
   "_embedded" : {
@@ -87,6 +87,23 @@ PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.e
       "publicationYear" : 1818,
       "isbn" : "654-321",
       "price" : 9.99
+    }, {
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/books/6"
+        },
+        "book" : {
+          "href" : "http://localhost:8080/api/books/6"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/books/6/category"
+        }
+      },
+      "title" : "Dune",
+      "author" : "Frank Herbert",
+      "publicationYear" : 1965,
+      "isbn" : "111-222",
+      "price" : 16.99
     } ]
   },
   "_links" : {
@@ -99,8 +116,8 @@ PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.e
   }
 }
 
-
-#Test 2 → GET one book by id
+------------------------------------
+#Test 2 → GET one book cetegory
 PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe http://localhost:8080/api/books/1/category
 {
   "_links" : {
@@ -117,19 +134,19 @@ PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.e
   "name" : "Non-Fiction"
 }
 
-
+------------------------------------
 #Test 3 → POST a new book
 PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -H "Content-Type: application/json" -X POST -d "@Tests\Book.json" http://localhost:8080/api/books
 {
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/api/books/6"
+      "href" : "http://localhost:8080/api/books/7"
     },
     "book" : {
-      "href" : "http://localhost:8080/api/books/6"
+      "href" : "http://localhost:8080/api/books/7"
     },
     "category" : {
-      "href" : "http://localhost:8080/api/books/6/category"
+      "href" : "http://localhost:8080/api/books/7/category"
     }
   },
   "title" : "Dune",
@@ -139,7 +156,8 @@ PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.e
   "price" : 15.99
 }
 
-#Test 4 → PUT 
+------------------------------------
+#Test 4 → PUT to update book fields
 PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -H "Content-Type: application/json" -X PUT -d "@Tests\BookUpdate.json" http://localhost:8080/api/books/6
 {
   "_links" : {
@@ -160,8 +178,42 @@ PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.e
   "price" : 16.99
 }
 
-#Test 5 → DELETE
-PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -X DELETE http://localhost:8080/api/books/6
+------------------------------------
+#Test 5 PUT to set the category relationship
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -i -X PUT -H "Content-Type: text/uri-list" -d "http://localhost:8080/api/categories/1" http://localhost:8080/api/books/6/category
+HTTP/1.1 204
+Date: Thu, 24 Sep 2026 18:53:10 GMT
+
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -i http://localhost:8080/api/books/6/category
+HTTP/1.1 200
+Content-Location: http://localhost:8080/api/categories/1
+Content-Type: application/vnd.hal+json
+Transfer-Encoding: chunked
+Date: Thu, 24 Sep 2026 18:55:31 GMT
+
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/categories/1"
+    },
+    "category" : {
+      "href" : "http://localhost:8080/api/categories/1"
+    },
+    "books" : {
+      "href" : "http://localhost:8080/api/categories/1/books"
+    }
+  },
+  "name" : "Fiction"
+}
+
+------------------------------------
+#Test 6 → DELETE the book
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -i -X DELETE http://localhost:8080/api/books/6
+HTTP/1.1 200
+Content-Type: application/vnd.hal+json
+Transfer-Encoding: chunked
+Date: Thu, 24 Sep 2026 18:56:04 GMT
+
 {
   "_links" : {
     "self" : {
@@ -180,3 +232,11 @@ PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.e
   "isbn" : "111-222",
   "price" : 16.99
 }
+
+------------------------------------
+#Test 7 Check it's really deleted
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -i http://localhost:8080/api/books/6
+HTTP/1.1 404
+Content-Length: 0
+Date: Thu, 24 Sep 2026 18:56:47 GMT
+------------------------------------
