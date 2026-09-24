@@ -1,0 +1,8 @@
+{
+  "title": "Dune",
+  "author": "Frank Herbert",
+  "publicationYear": 1965,
+  "isbn": "111-222",
+  "price": 16.99,
+  "category": "http://localhost:8080/api/categories/1"
+}

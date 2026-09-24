@@ -1,0 +1,182 @@
+#Test 1 GET full
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe http://localhost:8080/api/books
+{
+  "_embedded" : {
+    "books" : [ {
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/books/1"
+        },
+        "book" : {
+          "href" : "http://localhost:8080/api/books/1"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/books/1/category"
+        }
+      },
+      "title" : "Animal Farm",
+      "author" : "George Orwell",
+      "publicationYear" : 1945,
+      "isbn" : "123-456",
+      "price" : 12.99
+    }, {
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/books/2"
+        },
+        "book" : {
+          "href" : "http://localhost:8080/api/books/2"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/books/2/category"
+        }
+      },
+      "title" : "Harry Potter and the Philosopher's Stone",
+      "author" : "J.K. Rowling",
+      "publicationYear" : 1997,
+      "isbn" : "987-654",
+      "price" : 19.99
+    }, {
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/books/3"
+        },
+        "book" : {
+          "href" : "http://localhost:8080/api/books/3"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/books/3/category"
+        }
+      },
+      "title" : "Le Parfum",
+      "author" : "Patrick Süskind",
+      "publicationYear" : 1985,
+      "isbn" : "456-789",
+      "price" : 14.99
+    }, {
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/books/4"
+        },
+        "book" : {
+          "href" : "http://localhost:8080/api/books/4"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/books/4/category"
+        }
+      },
+      "title" : "Viper au poing",
+      "author" : "Jean-Christophe Grangé",
+      "publicationYear" : 2002,
+      "isbn" : "321-654",
+      "price" : 17.99
+    }, {
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/books/5"
+        },
+        "book" : {
+          "href" : "http://localhost:8080/api/books/5"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/books/5/category"
+        }
+      },
+      "title" : "Frankenstein",
+      "author" : "Mary Shelley",
+      "publicationYear" : 1818,
+      "isbn" : "654-321",
+      "price" : 9.99
+    } ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/books"
+    },
+    "profile" : {
+      "href" : "http://localhost:8080/api/profile/books"
+    }
+  }
+}
+
+
+#Test 2 → GET one book by id
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe http://localhost:8080/api/books/1/category
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/categories/2"
+    },
+    "category" : {
+      "href" : "http://localhost:8080/api/categories/2"
+    },
+    "books" : {
+      "href" : "http://localhost:8080/api/categories/2/books"
+    }
+  },
+  "name" : "Non-Fiction"
+}
+
+
+#Test 3 → POST a new book
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -H "Content-Type: application/json" -X POST -d "@Tests\Book.json" http://localhost:8080/api/books
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/books/6"
+    },
+    "book" : {
+      "href" : "http://localhost:8080/api/books/6"
+    },
+    "category" : {
+      "href" : "http://localhost:8080/api/books/6/category"
+    }
+  },
+  "title" : "Dune",
+  "author" : "Frank Herbert",
+  "publicationYear" : 1965,
+  "isbn" : "111-222",
+  "price" : 15.99
+}
+
+#Test 4 → PUT 
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -H "Content-Type: application/json" -X PUT -d "@Tests\BookUpdate.json" http://localhost:8080/api/books/6
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/books/6"
+    },
+    "book" : {
+      "href" : "http://localhost:8080/api/books/6"
+    },
+    "category" : {
+      "href" : "http://localhost:8080/api/books/6/category"
+    }
+  },
+  "title" : "Dune",
+  "author" : "Frank Herbert",
+  "publicationYear" : 1965,
+  "isbn" : "111-222",
+  "price" : 16.99
+}
+
+#Test 5 → DELETE
+PS C:\Users\chipi\Documents\01_HAAGA-HELIA\BackEnd_Programming\bookstore> curl.exe -X DELETE http://localhost:8080/api/books/6
+{
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/books/6"
+    },
+    "book" : {
+      "href" : "http://localhost:8080/api/books/6"
+    },
+    "category" : {
+      "href" : "http://localhost:8080/api/books/6/category"
+    }
+  },
+  "title" : "Dune",
+  "author" : "Frank Herbert",
+  "publicationYear" : 1965,
+  "isbn" : "111-222",
+  "price" : 16.99
+}
