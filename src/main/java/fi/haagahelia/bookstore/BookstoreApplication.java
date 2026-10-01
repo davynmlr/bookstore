@@ -4,12 +4,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import fi.haagahelia.bookstore.model.AppUser;
 import fi.haagahelia.bookstore.model.Book;
 import fi.haagahelia.bookstore.model.Category;
 import fi.haagahelia.bookstore.repository.BookRepository;
 import fi.haagahelia.bookstore.repository.CategoryRepository;
-
+import fi.haagahelia.bookstore.repository.UserRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -21,7 +23,7 @@ public class BookstoreApplication {
 
 
 	@Bean
-	public CommandLineRunner demo(BookRepository repository, CategoryRepository categoryRepository) {
+	public CommandLineRunner demo(BookRepository repository, CategoryRepository categoryRepository, UserRepository userRepository) {
 		return (args) -> {
 
 			//CATEGORIES
@@ -55,6 +57,14 @@ public class BookstoreApplication {
 			repository.save(frankenstein);
 
 
+			// USERS
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+			AppUser user = new AppUser("user", encoder.encode("password"), "user@example.com", "USER");
+			AppUser admin = new AppUser("admin", encoder.encode("admin"), "admin@example.com", "ADMIN");
+
+			userRepository.save(user);
+			userRepository.save(admin);
 		};
 	}
 
